@@ -1,42 +1,4 @@
 {
-  "cards": [
-    {
-      "id": "1",
-      "createdAt": "2025-04-01",
-      "title": "Pavasario Peizažas",
-      "image": "https://st3.depositphotos.com/1010305/33123/i/450/depositphotos_331238346-stock-photo-blooming-flowers-in-keukenhof-park.jpg",
-      "description": "Spalvingas pavasario peizažas su žydinčiomis gėlėmis."
-    },
-    {
-      "id": "2",
-      "createdAt": "2025-04-05",
-      "title": "Vasara prie ežero",
-      "image": "https://thumbs.dreamstime.com/b/summer-landscape-forest-lake-blue-sky-55784931.jpg",
-      "description": "Šilta vasaros diena prie ramaus ežero."
-    },
-    {
-      "id": "3",
-      "createdAt": "2025-04-10",
-      "title": "Rudens lapai",
-      "image": "https://toppng.com/uploads/preview/forest-path-autumn-foliage-fallen-trees-autumn-landscape-11570118425ii685m8tng.jpg",
-      "description": "Rudens spalvų festivalis miške."
-    },
-    {
-      "id": "4",
-      "createdAt": "2025-04-15",
-      "title": "Žiemos stebuklas",
-      "image": "https://t3.ftcdn.net/jpg/05/83/86/04/360_F_583860424_rcHOGmtOIgi09eFJvtcVlBwlgOoAvKvV.jpg",
-      "description": "Snieguota šalta žiemos diena."
-    },
-    {
-      "id": "2dd4",
-      "title": "Didelis vėjas kaime",
-      "description": "Ore ėmė dėtis keisti dalykai, staiga pakilo vėjas.",
-      "image": "https://d.ibtimes.co.uk/en/full/202060/man-struggles-against-strong-winds-next-promenade-largs-west-scotland-wednesday.jpg?w=736&f=fdde3f1fd9ce5a1c5267018be4dd0a2a",
-      "createdAt": "2025-04-17T17:25:58.721Z",
-      "userId": "2"
-    }
-  ],
   "users": [
     {
       "id": "1",
@@ -46,7 +8,7 @@
       "birthDate": "1990-01-01",
       "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png",
       "password": "Jonas@2024",
-      "passwordHash": "$2b$10$2Bv6pN5M2NeiLqhJLx9K7e0xuMofDff0rjFef6u4Xo2fsd4I4E2Qa"
+      "passwordHash": "$2b$10$kMT6vqfEzr.8/ZKDpzY4Xe9ECuhwaG4l2f00DgRO0UGhknTswg5La"
     },
     {
       "id": "2",
@@ -56,7 +18,63 @@
       "birthDate": "1995-05-05",
       "avatar": "https://www.shutterstock.com/image-vector/avatar-girls-icon-vector-woman-260nw-436514095.jpg",
       "password": "Ona123@!",
-      "passwordHash": "$2b$10$MR5yEM7eytT7V6AqQUSoeOBDIt6/dKzBbpD8MxCweJ57pr1y9OQxu"
+      "passwordHash": "$2b$10$UBlbYg7mS2FB3tckL3f4qeS9E6fh9IE8Shu7MJwhn0f3CS1uW9CaW"
+    }
+  ],
+  "cards": [
+    {
+      "id": "1",
+      "createdAt": "2025-04-01",
+      "title": "Pavasario Peizažas",
+      "image": "https://st3.depositphotos.com/1010305/33123/i/450/depositphotos_331238346-stock-photo-blooming-flowers-in-keukenhof-park.jpg",
+      "description": "Spalvingas pavasario peizažas su žydinčiomis gėlėmis.",
+      "userId": "1"
+    },
+    {
+      "id": "2",
+      "createdAt": "2025-04-05",
+      "title": "Vasara prie ežero",
+      "image": "https://thumbs.dreamstime.com/b/summer-landscape-forest-lake-blue-sky-55784931.jpg",
+      "description": "Šilta vasaros diena prie ramaus ežero.",
+      "userId": "2"
+    },
+    {
+      "id": "3",
+      "createdAt": "2025-04-10",
+      "title": "Rudens lapai",
+      "image": "https://toppng.com/uploads/preview/forest-path-autumn-foliage-fallen-trees-autumn-landscape-11570118425ii685m8tng.jpg",
+      "description": "Rudens spalvų festivalis miške.",
+      "userId": "1"
+    },
+    {
+      "id": "4",
+      "createdAt": "2025-04-15",
+      "title": "Žiemos stebuklas",
+      "image": "https://t3.ftcdn.net/jpg/05/83/86/04/360_F_583860424_rcHOGmtOIgi09eFJvtcVlBwlgOoAvKvV.jpg",
+      "description": "Snieguota šalta žiemos diena.",
+      "userId": "2"
+    }
+  ],
+  "savedCards": [
+    {
+      "id": "1",
+      "userId": 1,
+      "cardId": 2
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "cardId": 3
+    },
+    {
+      "id": "3",
+      "userId": 2,
+      "cardId": 1
+    },
+    {
+      "id": "fb91",
+      "userId": "2",
+      "cardId": "3"
     }
   ]
 }

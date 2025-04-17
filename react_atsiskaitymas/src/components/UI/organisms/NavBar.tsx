@@ -13,14 +13,16 @@ export const Navbar = () => {
   return (
     <header style={{ padding: "1rem", borderBottom: "1px solid #ccc" }}>
       <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        {/* Kairė pusė - Logotipas ir Home */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Link to="/">Logo</Link>
-          <Link to="/">Home</Link>
-          {user && <Link to="/add">Add</Link>}
-        </div>
-
-        {/* Dešinė pusė - Vartotojo info arba Login/Register */}
+        
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+  <Link to="/">
+    <img src="https://w7.pngwing.com/pngs/241/817/png-transparent-weather-forecasting-wet-season-weather-text-hand-logo.png" alt="Logo" style={{ height: "40px" }} />
+  </Link>
+  <Link to="/">Home</Link>
+  {user && <Link to="/add">Add</Link>}
+  {user && <Link to="/user">Saved</Link>} 
+</div>
+        
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           {user ? (
             <>
