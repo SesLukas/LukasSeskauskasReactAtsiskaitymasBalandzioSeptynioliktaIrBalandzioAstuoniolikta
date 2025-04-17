@@ -1,0 +1,128 @@
+{
+  "products": [
+    {
+      "id": "3ghj78",
+      "name": "Laptop",
+      "description": "Lightweight laptop with powerful performance.",
+      "price": 1299.99,
+      "stock": 19,
+      "image": "https://cdn.thewirecutter.com/wp-content/media/2023/06/bestlaptops-2048px-9765.jpg"
+    },
+    {
+      "id": "4klm90",
+      "name": "Smartwatch",
+      "description": "Stylish smartwatch with health tracking features.",
+      "price": 199.99,
+      "stock": 30,
+      "image": "https://m.media-amazon.com/images/I/61ZjlBOp+rL.jpg"
+    },
+    {
+      "id": "5nop12",
+      "name": "Bluetooth Speaker",
+      "description": "Portable Bluetooth speaker with excellent sound quality.",
+      "price": 49.99,
+      "stock": 50,
+      "image": "https://www.sencor.com/getmedia/53d54418-3de4-4fe8-a503-5edb74cac646/35059173.jpg"
+    },
+    {
+      "id": "1dfg65",
+      "name": "Wireless Headphones",
+      "description": "High-quality wireless headphones with noise cancellation.",
+      "price": 99.99,
+      "stock": 30,
+      "image": "https://m.media-amazon.com/images/I/61Gzf69kVPL.jpg"
+    },
+    {
+      "id": "ds44as",
+      "name": "Smartphone",
+      "description": "Latest model smartphone with advanced features.",
+      "price": 699.99,
+      "stock": 15,
+      "image": "https://m.media-amazon.com/images/I/716OmvUFy1L._AC_SL1500_.jpg"
+    }
+  ],
+  "users": [
+    {
+      "id": "d56fgs4",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "password": "$2b$10$KKf4TKE0/F8pRimjSkir3ONfHx6XZ9qMPQ1jSsvWvNlBEJTb5Wwai",
+      "passwordText": "Sl@pta52",
+      "role": "customer",
+      "likedProducts": [
+        "ds44as",
+        "4klm90",
+        "3ghj78"
+      ]
+    },
+    {
+      "id": "dgs445gf",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "password": "$2b$10$CPpK5VWfW.eCJrzXLNnMcuabzYMuBm26b9a4fhRXDTaxo8cntRGd.",
+      "passwordText": "Huey654&jaD",
+      "role": "admin",
+      "likedProducts": [
+        "1dfg65",
+        "3ghj78",
+        "5nop12"
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "id": "dfg465123",
+      "userId": "d56fgs4",
+      "products": [
+        {
+          "productId": "1dfg65",
+          "quantity": 2
+        },
+        {
+          "productId": "ds44as",
+          "quantity": 1
+        }
+      ],
+      "status": "Processing",
+      "date": "2023-10-01"
+    }
+  ],
+  "comments": [
+    {
+      "id": "fds456456dfsa",
+      "productId": "4klm90",
+      "userId": "d56fgs4",
+      "comment": "Very good, yes very nice english."
+    },
+    {
+      "id": "fds4564asdsa",
+      "productId": "4klm90",
+      "userId": "dgs445gf",
+      "comment": "More comment, caus why not."
+    },
+    {
+      "id": "fds4dfg6dfsa",
+      "productId": "1dfg65",
+      "userId": "d56fgs4",
+      "comment": "Me commenting on every item."
+    },
+    {
+      "id": "2a442d0e-60fa-4817-915d-c952a6730b6b",
+      "comment": "Nice watch",
+      "productId": "4klm90",
+      "userId": "d56fgs4"
+    },
+    {
+      "id": "c0afa113-6343-46b9-99b7-aece943ac2aa",
+      "comment": "First to comment, yay",
+      "productId": "3ghj78",
+      "userId": "d56fgs4"
+    },
+    {
+      "id": "c9a26635-91e5-4845-b46a-7b57d6499e68",
+      "comment": "jmhgjmhg",
+      "productId": "5nop12",
+      "userId": "dgs445gf"
+    }
+  ]
+}
