@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router";
 import { HomePage } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
-import { AddPage } from "../pages/Addpage";
+import { AddPage } from "../pages/AddPage";
 import { UserPage } from "../pages/UserPage";
 import { useAuth } from "../contexts/AuthContext";
 

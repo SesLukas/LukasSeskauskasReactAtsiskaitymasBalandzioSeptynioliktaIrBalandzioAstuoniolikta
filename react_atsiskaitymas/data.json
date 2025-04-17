@@ -1,54 +1,62 @@
 {
   "cards": [
     {
-      "id": 1,
+      "id": "1",
       "createdAt": "2025-04-01",
       "title": "Pavasario Peizažas",
       "image": "https://st3.depositphotos.com/1010305/33123/i/450/depositphotos_331238346-stock-photo-blooming-flowers-in-keukenhof-park.jpg",
       "description": "Spalvingas pavasario peizažas su žydinčiomis gėlėmis."
     },
     {
-      "id": 2,
+      "id": "2",
       "createdAt": "2025-04-05",
       "title": "Vasara prie ežero",
       "image": "https://thumbs.dreamstime.com/b/summer-landscape-forest-lake-blue-sky-55784931.jpg",
       "description": "Šilta vasaros diena prie ramaus ežero."
     },
     {
-      "id": 3,
+      "id": "3",
       "createdAt": "2025-04-10",
       "title": "Rudens lapai",
       "image": "https://toppng.com/uploads/preview/forest-path-autumn-foliage-fallen-trees-autumn-landscape-11570118425ii685m8tng.jpg",
       "description": "Rudens spalvų festivalis miške."
     },
     {
-      "id": 4,
+      "id": "4",
       "createdAt": "2025-04-15",
       "title": "Žiemos stebuklas",
       "image": "https://t3.ftcdn.net/jpg/05/83/86/04/360_F_583860424_rcHOGmtOIgi09eFJvtcVlBwlgOoAvKvV.jpg",
       "description": "Snieguota šalta žiemos diena."
+    },
+    {
+      "id": "2dd4",
+      "title": "Didelis vėjas kaime",
+      "description": "Ore ėmė dėtis keisti dalykai, staiga pakilo vėjas.",
+      "image": "https://d.ibtimes.co.uk/en/full/202060/man-struggles-against-strong-winds-next-promenade-largs-west-scotland-wednesday.jpg?w=736&f=fdde3f1fd9ce5a1c5267018be4dd0a2a",
+      "createdAt": "2025-04-17T17:25:58.721Z",
+      "userId": "2"
     }
   ],
   "users": [
     {
-      "id": 1,
-      "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png",
+      "id": "1",
       "fullName": "Jonas Jonaitis",
       "email": "jonas@example.com",
-      "username": "jonas123",
-      "birthDate": "1995-06-15",
-      "passwordHash": "$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZGHFjNfe4x6pC7hRL5U4nntW5VUWy",
-      "password": "slaptas123"
+      "username": "jonas",
+      "birthDate": "1990-01-01",
+      "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png",
+      "password": "Jonas@2024",
+      "passwordHash": "$2b$10$2Bv6pN5M2NeiLqhJLx9K7e0xuMofDff0rjFef6u4Xo2fsd4I4E2Qa"
     },
     {
-      "id": 2,
-      "avatar": "https://www.shutterstock.com/image-vector/avatar-girls-icon-vector-woman-260nw-436514095.jpg",
-      "fullName": "Ona Onaitė",
+      "id": "2",
+      "fullName": "Ona Onaitytė",
       "email": "ona@example.com",
-      "username": "ona456",
-      "birthDate": "1998-11-22",
-      "passwordHash": "$2a$10$7sMkA3Ut8DLaXlP3j7g2Du3Cta4R9V1uKJX8zNkeOdOKKnS2R/VoG",
-      "password": "slaptas456"
+      "username": "ona",
+      "birthDate": "1995-05-05",
+      "avatar": "https://www.shutterstock.com/image-vector/avatar-girls-icon-vector-woman-260nw-436514095.jpg",
+      "password": "Ona123@!",
+      "passwordHash": "$2b$10$MR5yEM7eytT7V6AqQUSoeOBDIt6/dKzBbpD8MxCweJ57pr1y9OQxu"
     }
   ]
 }
