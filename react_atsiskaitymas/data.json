@@ -21,6 +21,28 @@
       "avatar": "https://www.shutterstock.com/image-vector/avatar-girls-icon-vector-woman-260nw-436514095.jpg",
       "password": "Ona123@!",
       "passwordHash": "$2b$10$UBlbYg7mS2FB3tckL3f4qeS9E6fh9IE8Shu7MJwhn0f3CS1uW9CaW"
+    },
+    {
+      "id": "065b",
+      "firstName": "Myndė",
+      "lastName": "Daunoravičius",
+      "email": "mynde@uud.ve",
+      "username": "Myndraugas",
+      "birthDate": "2000-06-14",
+      "avatar": "https://img.icons8.com/nolan/600w/user-default.png",
+      "password": "MMaa22**",
+      "passwordHash": "$2b$10$h/6XM1qbG.HNA.qZoGjoRe30unZCIrwmHG3mcGXq/JL6CSOMjMJBO"
+    },
+    {
+      "id": "f286",
+      "firstName": "Juozas",
+      "lastName": "Sokolovskis",
+      "email": "juoz@ias.com",
+      "username": "Jouzas",
+      "birthDate": "2001-10-18",
+      "avatar": "https://img.icons8.com/nolan/600w/user-default.png",
+      "password": "AsAs1*1*",
+      "passwordHash": "$2b$10$t9oZVCcXtdzZMYjYEvZJvO7COT6lJMwejJ0vJ6bBmP6wdoBr7F/YW"
     }
   ],
   "cards": [
@@ -71,6 +93,14 @@
       "image": "https://i.pinimg.com/736x/df/85/5e/df855eaf443aaf115468ae3da28f02eb.jpg",
       "createdAt": "2025-04-17T20:56:21.060Z",
       "userId": "2"
+    },
+    {
+      "id": "4b12",
+      "title": "Ledo ritulys ant užšalusio ežero",
+      "description": "Žaidimas vyksta, nepaisant oro sąlygų",
+      "image": "https://images.theconversation.com/files/620569/original/file-20240919-16-p516vy.jpg?ixlib=rb-4.1.0&rect=41%2C951%2C4483%2C2241&q=45&auto=format&w=1356&h=668&fit=crop",
+      "createdAt": "2025-04-17T22:24:24.866Z",
+      "userId": "f286"
     }
   ],
   "savedCards": [
@@ -92,6 +122,31 @@
     {
       "id": "bf59",
       "userId": "2",
+      "cardId": "1"
+    },
+    {
+      "id": "0748",
+      "userId": "ebec",
+      "cardId": "2"
+    },
+    {
+      "id": "a5f5",
+      "userId": "ebec",
+      "cardId": "4"
+    },
+    {
+      "id": "57e8",
+      "userId": "065b",
+      "cardId": "4"
+    },
+    {
+      "id": "ee4c",
+      "userId": "f286",
+      "cardId": "4b12"
+    },
+    {
+      "id": "4ea6",
+      "userId": "f286",
       "cardId": "1"
     }
   ]

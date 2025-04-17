@@ -1,69 +1,84 @@
+import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
+import bcrypt from "bcryptjs";
+import { useAuth } from "../contexts/AuthContext"
 import { useNavigate } from "react-router";
-import { useAuth } from "../../src/contexts/AuthContext";
-import { User } from "../../src/types/User";
+import { User } from "../types/User"
 
-type RegisterFormValues = {
+interface RegisterFormValues {
   firstName: string;
   lastName: string;
   email: string;
   username: string;
   birthDate: string;
   password: string;
+  confirmPassword: string;
   avatar?: string;
-};
-
-const registerSchema = Yup.object({
-  firstName: Yup.string()
-    .min(2, "Vardas turi būti bent 2 simboliai")
-    .matches(/^[A-Za-zÀ-ž\s'-]+$/, "Vardas gali turėti tik raides")
-    .required("Vardas būtinas"),
-  lastName: Yup.string()
-    .min(2, "Pavardė turi būti bent 2 simboliai")
-    .matches(/^[A-Za-zÀ-ž\s'-]+$/, "Pavardė gali turėti tik raides")
-    .required("Pavardė būtina"),
-  email: Yup.string()
-    .email("Netinkamas el. paštas")
-    .required("El. paštas būtinas"),
-  username: Yup.string()
-    .min(3, "Vartotojo vardas turi būti bent 3 simboliai")
-    .required("Vartotojo vardas būtinas"),
-  birthDate: Yup.string()
-    .required("Gimimo data būtina"),
-  password: Yup.string()
-    .required("Slaptažodis būtinas")
-    .min(8, "Slaptažodis turi būti bent 8 simbolių")
-    .matches(/[A-Z]/, "Turi būti bent viena didžioji raidė")
-    .matches(/[a-z]/, "Turi būti bent viena mažoji raidė")
-    .matches(/[0-9]/, "Turi būti bent vienas skaičius")
-    .matches(/[!@#$%^&*(),.?":{}|<>]/, "Turi būti bent vienas specialus simbolis"),
-});
+}
 
 export const RegisterPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const registerSchema = Yup.object({
+    firstName: Yup.string()
+      .min(2, "Vardas per trumpas!")
+      .required("Vardas yra privalomas"),
+    lastName: Yup.string()
+      .min(2, "Pavardė per trumpa!")
+      .required("Pavardė yra privaloma"),
+    email: Yup.string()
+      .email("Neteisingas el. pašto formatas")
+      .required("El. paštas yra privalomas"),
+    username: Yup.string()
+      .min(3, "Vartotojo vardas per trumpas")
+      .required("Vartotojo vardas yra privalomas"),
+    birthDate: Yup.date()
+      .min(new Date(1900, 0, 1), "Gimimo data negali būti ankstesnė nei 1900")
+      .required("Gimimo data yra privaloma"),
+    password: Yup.string()
+      .min(8, "Slaptažodis turi būti bent 8 simbolių ilgumo")
+      .matches(/[A-Z]/, "Bent viena didžioji raidė privaloma")
+      .matches(/[a-z]/, "Bent viena mažoji raidė privaloma")
+      .matches(/[0-9]/, "Bent vienas skaičius privalomas")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, "Bent vienas specialus simbolis privalomas")
+      .required("Slaptažodis yra privalomas"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], "Slaptažodžiai nesutampa")
+      .required("Būtina pakartoti slaptažodį"),
+  });
 
   const handleRegister = async (values: RegisterFormValues) => {
     try {
       const response = await fetch("http://localhost:8080/users");
       const users: User[] = await response.json();
 
-      const emailExists = users.some((u) => u.email === values.email);
-      const usernameExists = users.some((u) => u.username === values.username);
+      const emailExists = users.some((user) => user.email.toLowerCase() === values.email.toLowerCase());
+      const usernameExists = users.some((user) => user.username.toLowerCase() === values.username.toLowerCase());
 
-      if (emailExists || usernameExists) {
-        setError("Toks el. paštas arba vartotojo vardas jau užimtas.");
-        return;
+      if (emailExists) {
+        throw new Error("Toks el. paštas jau egzistuoja!");
+      }
+      if (usernameExists) {
+        throw new Error("Toks vartotojo vardas jau egzistuoja!");
       }
 
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(values.password, salt);
+
       const newUser = {
-        ...values,
-        fullName: `${values.firstName} ${values.lastName}`,
-        avatar: values.avatar || "https://img.icons8.com/nolan/600w/user-default.png", 
-        passwordHash: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        username: values.username,
+        birthDate: values.birthDate,
+        avatar: values.avatar || "https://img.icons8.com/nolan/600w/user-default.png",
+        password: values.password,
+        passwordHash: hashedPassword,
       };
 
       const createUser = await fetch("http://localhost:8080/users", {
@@ -72,18 +87,39 @@ export const RegisterPage = () => {
         body: JSON.stringify(newUser),
       });
 
+      if (!createUser.ok) {
+        throw new Error("Nepavyko sukurti vartotojo!");
+      }
+
       const createdUser = await createUser.json();
       login(createdUser);
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      setError("Registracijos klaida. Bandykite vėliau.");
+      setSuccess("Registracija sėkminga!");
+      setError(null);
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message);
+        setError(err.message || "Registracija nesėkminga!");
+        setSuccess(null);
+      } else {
+        console.error(err);
+        setError("Registracijos klaida. Bandykite vėliau.");
+        setSuccess(null);
+      }
     }
   };
 
   return (
-    <section style={{ padding: "2rem" }}>
-      <h1>Registracija</h1>
+    <section style={{ padding: "2rem", maxWidth: "500px", margin: "auto" }}>
+      <h2 style={{ textAlign: "center", marginBottom: "2rem" }}>Registracija</h2>
+
+      {error && <div style={{ color: "red", marginBottom: "1rem", fontSize: "1.2rem" }}>{error}</div>}
+      {success && <div style={{ color: "green", marginBottom: "1rem" }}>{success}</div>}
+
       <Formik
         initialValues={{
           firstName: "",
@@ -92,43 +128,71 @@ export const RegisterPage = () => {
           username: "",
           birthDate: "",
           password: "",
-          avatar: ""
+          confirmPassword: "",
+          avatar: "",
         }}
         validationSchema={registerSchema}
-        onSubmit={handleRegister}
+        validateOnBlur={true}
+        validateOnChange={false}
+        onSubmit={async (values, { setSubmitting }) => {
+          await handleRegister(values);
+          setSubmitting(false);
+        }}
       >
-        {() => (
-          <Form style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "400px" }}>
-            <label>Vardas:</label>
-            <Field name="firstName" />
-            <ErrorMessage name="firstName" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+        {(formik) => (
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              formik.handleSubmit();
+              if (!formik.isValid) {
+                setError("Registracija nesėkminga!");
+                setSuccess(null);
+              }
+            }}
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
+            {/* Form fields here */}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="firstName">Vardas</label>
+              <Field id="firstName" name="firstName" />
+              <ErrorMessage name="firstName" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="lastName">Pavardė</label>
+              <Field id="lastName" name="lastName" />
+              <ErrorMessage name="lastName" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="email">El. paštas</label>
+              <Field id="email" name="email" type="email" />
+              <ErrorMessage name="email" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="username">Vartotojo vardas</label>
+              <Field id="username" name="username" />
+              <ErrorMessage name="username" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="birthDate">Gimimo data</label>
+              <Field id="birthDate" name="birthDate" type="date" />
+              <ErrorMessage name="birthDate" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="password">Slaptažodis</label>
+              <Field id="password" name="password" type="password" />
+              <ErrorMessage name="password" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="confirmPassword">Pakartokite slaptažodį</label>
+              <Field id="confirmPassword" name="confirmPassword" type="password" />
+              <ErrorMessage name="confirmPassword" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="avatar">Avataras (nebūtinas)</label>
+              <Field id="avatar" name="avatar" />
+            </div>
 
-            <label>Pavardė:</label>
-            <Field name="lastName" />
-            <ErrorMessage name="lastName" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
-
-            <label>El. paštas:</label>
-            <Field name="email" type="email" />
-            <ErrorMessage name="email" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
-
-            <label>Vartotojo vardas:</label>
-            <Field name="username" />
-            <ErrorMessage name="username" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
-
-            <label>Gimimo data:</label>
-            <Field name="birthDate" type="date" />
-            <ErrorMessage name="birthDate" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
-
-            <label>Slaptažodis:</label>
-            <Field name="password" type="password" />
-            <ErrorMessage name="password" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
-
-            <label>Avataro URL (nebūtinas):</label>
-            <Field name="avatar" />
-
-            <button type="submit">Registruotis</button>
-
-            {error && <div style={{ color: "red" }}>{error}</div>}
+            <button type="submit" style={{ marginTop: "1rem" }}>Registruotis</button>
           </Form>
         )}
       </Formik>
