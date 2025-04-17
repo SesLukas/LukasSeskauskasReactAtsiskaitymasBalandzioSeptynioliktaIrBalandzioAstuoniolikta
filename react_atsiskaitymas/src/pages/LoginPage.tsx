@@ -1,69 +1,83 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useAuth } from "../../src/contexts/AuthContext";
-import * as Yup from "yup";
-import { useNavigate } from "react-router";
 import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useAuth } from "../../src/contexts/AuthContext";
 import { User } from "../../src/types/User";
-
-const loginValidationSchema = Yup.object({
-  email: Yup.string().email("Netinkamas el. paštas").required("Privaloma"),
-  password: Yup.string().required("Privaloma"),
-});
+import { useNavigate } from "react-router";
 
 export const LoginPage = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  const loginSchema = Yup.object({
+    email: Yup.string().email("Netinkamas el. paštas").required("El. paštas būtinas"),
+    password: Yup.string().required("Slaptažodis būtinas"),
+  });
 
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
       const response = await fetch("http://localhost:8080/users");
       const users: User[] = await response.json();
-
+  
       const foundUser = users.find(
         (u) => u.email === values.email && u.password === values.password
       );
-
+  
       if (foundUser) {
         login(foundUser);
-        navigate("/");
+        setNotification({ message: "✅ Prisijungimas sėkmingas!", type: "success" });
+  
+        setTimeout(() => {
+          navigate("/");
+        }, 1500); 
       } else {
-        setError("Neteisingas el. paštas arba slaptažodis.");
+        setNotification({ message: "❌ Neteisingas el. paštas arba slaptažodis.", type: "error" });
       }
     } catch (err) {
       console.error(err);
-      setError("Įvyko klaida prisijungiant. Bandykite vėliau.");
+      setNotification({ message: "❌ Įvyko klaida prisijungiant. Bandykite vėliau.", type: "error" });
     }
   };
 
   return (
     <section style={{ padding: "2rem" }}>
       <h1>Prisijungimas</h1>
+
+      {notification && (
+  <div
+    style={{
+      color: notification.type === "success" ? "green" : "red",
+      marginBottom: "1rem",
+    }}
+  >
+    {notification.message}
+  </div>
+)}
       <Formik
         initialValues={{ email: "", password: "" }}
-        validationSchema={loginValidationSchema}
+        validationSchema={loginSchema}
         onSubmit={handleLogin}
       >
-        {() => (
-          <Form style={{ display: "flex", flexDirection: "column", maxWidth: "300px", gap: "1rem" }}>
-            <label>El. paštas:</label>
-            <Field name="email" type="email" />
-            <ErrorMessage name="email"
-            render={msg => <div style={{ color: "red" }}>{msg}</div>}
-/>
+        <Form style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "400px" }}>
+          <div>
+            <label htmlFor="email">El. paštas</label>
+            <Field id="email" name="email" type="email" />
+            <ErrorMessage name="email">
+  {msg => <div style={{ color: "red" }}>{msg}</div>}
+</ErrorMessage>
+          </div>
 
-            <label>Slaptažodis:</label>
-            <Field name="password" type="password" />
-            <ErrorMessage
-  name="password"
-  render={(msg) => <div style={{ color: "red" }}>{msg}</div>}
-/>
+          <div>
+            <label htmlFor="password">Slaptažodis</label>
+            <Field id="password" name="password" type="password" />
+            <ErrorMessage name="password">
+  {msg => <div style={{ color: "red" }}>{msg}</div>}
+</ErrorMessage>
+          </div>
 
-            <button type="submit">Prisijungti</button>
-
-            {error && <div style={{ color: "red" }}>{error}</div>}
-          </Form>
-        )}
+          <button type="submit">Prisijungti</button>
+        </Form>
       </Formik>
     </section>
   );

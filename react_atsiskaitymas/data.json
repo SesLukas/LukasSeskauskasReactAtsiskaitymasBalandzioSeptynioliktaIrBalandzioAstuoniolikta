@@ -2,9 +2,10 @@
   "users": [
     {
       "id": "1",
-      "fullName": "Jonas Jonaitis",
+      "firstName": "Jonas",
+      "lastName": "Jonaitis",
       "email": "jonas@example.com",
-      "username": "jonas",
+      "username": "Jonas",
       "birthDate": "1990-01-01",
       "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png",
       "password": "Jonas@2024",
@@ -12,9 +13,10 @@
     },
     {
       "id": "2",
-      "fullName": "Ona Onaitytė",
+      "firstName": "Ona",
+      "lastName": "Onaitytė",
       "email": "ona@example.com",
-      "username": "ona",
+      "username": "Ona",
       "birthDate": "1995-05-05",
       "avatar": "https://www.shutterstock.com/image-vector/avatar-girls-icon-vector-woman-260nw-436514095.jpg",
       "password": "Ona123@!",
@@ -24,7 +26,7 @@
   "cards": [
     {
       "id": "1",
-      "createdAt": "2025-04-01",
+      "createdAt": "2025-04-01T10:00:00.000Z",
       "title": "Pavasario Peizažas",
       "image": "https://st3.depositphotos.com/1010305/33123/i/450/depositphotos_331238346-stock-photo-blooming-flowers-in-keukenhof-park.jpg",
       "description": "Spalvingas pavasario peizažas su žydinčiomis gėlėmis.",
@@ -32,7 +34,7 @@
     },
     {
       "id": "2",
-      "createdAt": "2025-04-05",
+      "createdAt": "2025-04-05T14:30:00.000Z",
       "title": "Vasara prie ežero",
       "image": "https://thumbs.dreamstime.com/b/summer-landscape-forest-lake-blue-sky-55784931.jpg",
       "description": "Šilta vasaros diena prie ramaus ežero.",
@@ -40,7 +42,7 @@
     },
     {
       "id": "3",
-      "createdAt": "2025-04-10",
+      "createdAt": "2025-04-10T09:15:00.000Z",
       "title": "Rudens lapai",
       "image": "https://toppng.com/uploads/preview/forest-path-autumn-foliage-fallen-trees-autumn-landscape-11570118425ii685m8tng.jpg",
       "description": "Rudens spalvų festivalis miške.",
@@ -48,10 +50,26 @@
     },
     {
       "id": "4",
-      "createdAt": "2025-04-15",
+      "createdAt": "2025-04-15T18:45:00.000Z",
       "title": "Žiemos stebuklas",
       "image": "https://t3.ftcdn.net/jpg/05/83/86/04/360_F_583860424_rcHOGmtOIgi09eFJvtcVlBwlgOoAvKvV.jpg",
       "description": "Snieguota šalta žiemos diena.",
+      "userId": "2"
+    },
+    {
+      "id": "5893",
+      "title": "Didelis vėjas kaime",
+      "description": "Pakilo vėjas, orai subjuro.",
+      "image": "https://d.ibtimes.co.uk/en/full/202060/man-struggles-against-strong-winds-next-promenade-largs-west-scotland-wednesday.jpg?w=736&f=fdde3f1fd9ce5a1c5267018be4dd0a2a",
+      "createdAt": "2025-04-17T19:18:20.033Z",
+      "userId": "2"
+    },
+    {
+      "id": "534a",
+      "title": "Pavasario saulė nušvito meiliai",
+      "description": "Ir juokiasi, širdį vilioja;",
+      "image": "https://i.pinimg.com/736x/df/85/5e/df855eaf443aaf115468ae3da28f02eb.jpg",
+      "createdAt": "2025-04-17T20:56:21.060Z",
       "userId": "2"
     }
   ],
@@ -67,14 +85,14 @@
       "cardId": 3
     },
     {
-      "id": "3",
-      "userId": 2,
-      "cardId": 1
+      "id": "2c20",
+      "userId": "2",
+      "cardId": "2"
     },
     {
-      "id": "fb91",
+      "id": "bf59",
       "userId": "2",
-      "cardId": "3"
+      "cardId": "1"
     }
   ]
 }

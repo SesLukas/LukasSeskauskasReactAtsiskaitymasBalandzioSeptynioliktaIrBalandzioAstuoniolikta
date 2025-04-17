@@ -1,43 +1,52 @@
 import { useEffect, useState } from "react";
-import { CardList } from "../../../react_atsiskaitymas/src/components/UI/organisms/CardList";
-import { Loader } from "../../src/components/UI/atoms/Loader";
-import { CardType } from "../../src/types/CardType";
+import { CardType } from "../types/CardType";
+import { CardItem } from "../../src/components/UI/molecules/CardItem";
 
 export const HomePage = () => {
-  const [cards, setCards] = useState<CardType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/cards");
-        const data = await response.json();
-        setCards(data);
-      } catch (error) {
-        console.error("Klaida gaunant korteles:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCards();
-  }, []);
-
-  return (
-    <section style={{ padding: "2rem" }}>
-      <h1 style={{ textAlign: "center" }}>Visos Kortelės</h1>
-
-      {isLoading ? (
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <Loader />
+    const [cards, setCards] = useState<CardType[]>([]); // ← čia!
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const fetchCards = async () => {
+        try {
+          const response = await fetch("http://localhost:8080/cards");
+          const data = await response.json();
+          setCards(data);
+        } catch (error) {
+          console.error("Klaida gaunant korteles:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchCards();
+    }, []);
+  
+    if (loading) {
+      return (
+        <div style={{ textAlign: "center", padding: "2rem" }}>
+          <img
+            src="https://raw.githubusercontent.com/Codelessly/FlutterLoadingGIFs/master/packages/cupertino_activity_indicator_large.gif"
+            alt="Kraunama..."
+            style={{ width: "100px" }}
+          />
         </div>
-      ) : cards.length === 0 ? (
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <p>Šiuo metu nėra jokių kortelių.</p>
+      );
+    }
+  
+    if (cards.length === 0) {
+      return (
+        <div style={{ textAlign: "center", padding: "2rem" }}>
+          <p>Šiuo metu nėra įrašų.</p>
         </div>
-      ) : (
-        <CardList cards={cards} />
-      )}
-    </section>
-  );
-};
+      );
+    }
+  
+    return (
+      <section style={{ display: "flex", flexWrap: "wrap", gap: "1rem", padding: "2rem" }}>
+        {cards.map((card) => (
+          <CardItem key={card.id} card={card} />
+        ))}
+      </section>
+    );
+  };

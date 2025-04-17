@@ -6,7 +6,8 @@ import { useAuth } from "../../src/contexts/AuthContext";
 import { User } from "../../src/types/User";
 
 type RegisterFormValues = {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   username: string;
   birthDate: string;
@@ -15,9 +16,14 @@ type RegisterFormValues = {
 };
 
 const registerSchema = Yup.object({
-  fullName: Yup.string()
-    .min(3, "Pilnas vardas turi būti bent 3 simboliai")
-    .required("Pilnas vardas būtinas"),
+  firstName: Yup.string()
+    .min(2, "Vardas turi būti bent 2 simboliai")
+    .matches(/^[A-Za-zÀ-ž\s'-]+$/, "Vardas gali turėti tik raides")
+    .required("Vardas būtinas"),
+  lastName: Yup.string()
+    .min(2, "Pavardė turi būti bent 2 simboliai")
+    .matches(/^[A-Za-zÀ-ž\s'-]+$/, "Pavardė gali turėti tik raides")
+    .required("Pavardė būtina"),
   email: Yup.string()
     .email("Netinkamas el. paštas")
     .required("El. paštas būtinas"),
@@ -55,7 +61,8 @@ export const RegisterPage = () => {
 
       const newUser = {
         ...values,
-        avatar: values.avatar || "https://via.placeholder.com/150",
+        fullName: `${values.firstName} ${values.lastName}`,
+        avatar: values.avatar || "https://img.icons8.com/nolan/600w/user-default.png", 
         passwordHash: values.password,
       };
 
@@ -79,7 +86,8 @@ export const RegisterPage = () => {
       <h1>Registracija</h1>
       <Formik
         initialValues={{
-          fullName: "",
+          firstName: "",
+          lastName: "",
           email: "",
           username: "",
           birthDate: "",
@@ -91,9 +99,13 @@ export const RegisterPage = () => {
       >
         {() => (
           <Form style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "400px" }}>
-            <label>Pilnas vardas:</label>
-            <Field name="fullName" />
-            <ErrorMessage name="fullName" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+            <label>Vardas:</label>
+            <Field name="firstName" />
+            <ErrorMessage name="firstName" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+
+            <label>Pavardė:</label>
+            <Field name="lastName" />
+            <ErrorMessage name="lastName" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
 
             <label>El. paštas:</label>
             <Field name="email" type="email" />

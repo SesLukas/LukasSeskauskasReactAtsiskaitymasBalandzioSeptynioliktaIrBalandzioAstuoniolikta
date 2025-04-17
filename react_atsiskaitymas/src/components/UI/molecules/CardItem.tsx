@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { CardType } from "../../../types/CardType";
-import { Link } from "react-router"; // naudok "react-router", kaip sakei
+import { Link } from "react-router";
 
 type Props = {
   card: CardType;
@@ -9,22 +9,22 @@ type Props = {
 
 type UserType = {
   id: number;
-  username: string;
+  firstName: string;
+  lastName: string;
   avatar: string;
 };
 
 export const CardItem = ({ card }: Props) => {
   const { user } = useAuth();
   const [cardCreator, setCardCreator] = useState<UserType | null>(null);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [notification, setNotification] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCreator = async () => {
       if (!card.userId) return;
       try {
         const response = await fetch(`http://localhost:8080/users/${card.userId}`);
-        if (!response.ok) {
-          throw new Error("Kūrėjas nerastas");
-        }
         const creator = await response.json();
         setCardCreator(creator);
       } catch (error) {
@@ -32,57 +32,84 @@ export const CardItem = ({ card }: Props) => {
       }
     };
 
+    const checkIfSaved = async () => {
+      if (!user) return;
+      const res = await fetch(`http://localhost:8080/savedCards?userId=${user.id}&cardId=${card.id}`);
+      const data = await res.json();
+      setIsSaved(data.length > 0);
+    };
+
     fetchCreator();
-  }, [card.userId]);
+    checkIfSaved();
+  }, [card.userId, card.id, user]);
 
-  const handleDelete = async () => {
-    if (!card.id) return;
-    try {
-      await fetch(`http://localhost:8080/cards/${card.id}`, {
-        method: "DELETE",
-      });
-      window.location.reload(); // greitam efektui, vėliau galima patobulinti be reload
-    } catch (error) {
-      console.error("Klaida trinant kortelę:", error);
-    }
-  };
-
-  const handleSave = async () => {
+  const handleSaveOrUnsave = async () => {
     if (!user) return;
-    try {
-      const newSave = {
-        userId: user.id,
-        cardId: card.id,
-      };
+
+    if (isSaved) {
+      const response = await fetch(`http://localhost:8080/savedCards?userId=${user.id}&cardId=${card.id}`);
+      const saved = await response.json();
+      if (saved.length > 0) {
+        await fetch(`http://localhost:8080/savedCards/${saved[0].id}`, { method: "DELETE" });
+        setIsSaved(false);
+        setNotification("Kortelė pašalinta iš išsaugotų!");
+      }
+    } else {
       await fetch(`http://localhost:8080/savedCards`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newSave),
+        body: JSON.stringify({ userId: user.id, cardId: card.id }),
       });
-      alert("Kortelė išsaugota!");
-    } catch (error) {
-      console.error("Klaida saugant kortelę:", error);
+      setIsSaved(true);
+      setNotification("Kortelė išsaugota!");
     }
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
   };
 
   if (!cardCreator) {
-    return <p>Kraunama...</p>;
+    return (
+      <div style={{ textAlign: "center", padding: "2rem" }}>
+        <img
+          src="https://raw.githubusercontent.com/Codelessly/FlutterLoadingGIFs/master/packages/cupertino_activity_indicator_large.gif"
+          alt="Kraunama..."
+          style={{ width: "80px" }}
+        />
+      </div>
+    );
   }
 
   return (
     <div style={{ border: "1px solid #ccc", padding: "1rem", width: "300px", position: "relative" }}>
+      {notification && (
+        <div style={{ backgroundColor: "#e0ffe0", color: "green", padding: "0.5rem", marginBottom: "0.5rem", borderRadius: "8px", textAlign: "center", fontWeight: "bold" }}>
+          {notification}
+        </div>
+      )}
+
       <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
         <img
           src={cardCreator.avatar}
-          alt={cardCreator.username}
+          alt={`${cardCreator.firstName} ${cardCreator.lastName}`}
           style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "0.5rem" }}
         />
         <div>
           <Link to="/user" style={{ textDecoration: "none", color: "inherit" }}>
-            {cardCreator.username}
+            {cardCreator.firstName} {cardCreator.lastName}
           </Link>
           <br />
-          <small>{new Date(card.createdAt).toLocaleDateString()}</small>
+          <small>
+  {new Date(card.createdAt).toLocaleString("lt-LT", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  })}
+</small>
         </div>
       </div>
 
@@ -100,20 +127,23 @@ export const CardItem = ({ card }: Props) => {
 
       <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between" }}>
         {user && (
-          <button onClick={handleSave} style={{ padding: "0.5rem", fontSize: "0.8rem" }}>
-            Save
+          <button onClick={handleSaveOrUnsave} style={{ padding: "0.5rem", fontSize: "0.8rem", cursor: "pointer" }}>
+            {isSaved ? "Unsave" : "Save"}
           </button>
         )}
         {user && user.id === card.userId && (
           <button
-            onClick={handleDelete}
+            onClick={async () => {
+              await fetch(`http://localhost:8080/cards/${card.id}`, { method: "DELETE" });
+              window.location.reload();
+            }}
             style={{
               padding: "0.5rem",
               fontSize: "0.8rem",
               backgroundColor: "red",
               color: "white",
               border: "none",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
             Delete

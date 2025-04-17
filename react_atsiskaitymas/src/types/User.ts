@@ -1,10 +1,11 @@
 export type User = {
-    id: number;
-    avatar: string;
-    fullName: string;
-    email: string;
-    username: string;
-    birthDate: string;
-    passwordHash: string;
-    password: string;
-  };
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  birthDate: string;
+  avatar: string;
+  password: string;
+  passwordHash: string;
+};
