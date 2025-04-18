@@ -8,6 +8,7 @@ export const HomePage = () => {
   
     useEffect(() => {
       const fetchCards = async () => {
+        setLoading(true);
         try {
           const response = await fetch("http://localhost:8080/cards");
           const data = await response.json();
@@ -20,7 +21,7 @@ export const HomePage = () => {
       };
   
       fetchCards();
-    }, []);
+    }, [location.pathname]);
   
     if (loading) {
       return (

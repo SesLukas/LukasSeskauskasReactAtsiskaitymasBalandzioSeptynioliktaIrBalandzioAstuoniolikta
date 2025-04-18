@@ -1,9 +1,9 @@
 export type CardType = {
-    id: number;
+    id: string;
     createdAt: string;
     title: string;
     image: string;
     description: string;
-    userId: number;
+    userId: string;
   };
   

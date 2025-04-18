@@ -55,30 +55,40 @@ export const LoginPage = () => {
   </div>
 )}
       <Formik
-        initialValues={{ email: "", password: "" }}
-        validationSchema={loginSchema}
-        onSubmit={handleLogin}
+  initialValues={{ email: "", password: "" }}
+  validationSchema={loginSchema}
+  onSubmit={handleLogin}
+>
+  {({ validateForm, submitForm }) => (
+    <Form style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "400px" }}>
+      <div>
+        <label htmlFor="email">El. paštas</label>
+        <Field id="email" name="email" type="email" />
+        <ErrorMessage name="email">{msg => <div style={{ color: "red" }}>{msg}</div>}</ErrorMessage>
+      </div>
+
+      <div>
+        <label htmlFor="password">Slaptažodis</label>
+        <Field id="password" name="password" type="password" />
+        <ErrorMessage name="password">{msg => <div style={{ color: "red" }}>{msg}</div>}</ErrorMessage>
+      </div>
+
+      <button
+        type="button"
+        onClick={async () => {
+          const errors = await validateForm();
+          if (Object.keys(errors).length > 0) {
+            setNotification({ message: "❌ Nepavyko prisijungti!", type: "error" });
+          } else {
+            submitForm();
+          }
+        }}
       >
-        <Form style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "400px" }}>
-          <div>
-            <label htmlFor="email">El. paštas</label>
-            <Field id="email" name="email" type="email" />
-            <ErrorMessage name="email">
-  {msg => <div style={{ color: "red" }}>{msg}</div>}
-</ErrorMessage>
-          </div>
-
-          <div>
-            <label htmlFor="password">Slaptažodis</label>
-            <Field id="password" name="password" type="password" />
-            <ErrorMessage name="password">
-  {msg => <div style={{ color: "red" }}>{msg}</div>}
-</ErrorMessage>
-          </div>
-
-          <button type="submit">Prisijungti</button>
-        </Form>
-      </Formik>
+        Prisijungti
+      </button>
+    </Form>
+  )}
+</Formik>
     </section>
   );
 };

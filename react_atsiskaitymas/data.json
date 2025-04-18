@@ -43,6 +43,17 @@
       "avatar": "https://img.icons8.com/nolan/600w/user-default.png",
       "password": "AsAs1*1*",
       "passwordHash": "$2b$10$t9oZVCcXtdzZMYjYEvZJvO7COT6lJMwejJ0vJ6bBmP6wdoBr7F/YW"
+    },
+    {
+      "id": "1744932447899",
+      "firstName": "Darius",
+      "lastName": "Petkus",
+      "email": "darius.petkus84848484@gmail.com",
+      "username": "Mumn",
+      "birthDate": "2024-07-23",
+      "avatar": "https://img.icons8.com/nolan/600w/user-default.png",
+      "password": "aA111111**",
+      "passwordHash": "$2b$10$AzBNZnUL9CeQJRIF8IrrP.KSY0MzHdmmO/Uvd46jvKOxinpabLVNu"
     }
   ],
   "cards": [
@@ -101,18 +112,50 @@
       "image": "https://images.theconversation.com/files/620569/original/file-20240919-16-p516vy.jpg?ixlib=rb-4.1.0&rect=41%2C951%2C4483%2C2241&q=45&auto=format&w=1356&h=668&fit=crop",
       "createdAt": "2025-04-17T22:24:24.866Z",
       "userId": "f286"
+    },
+    {
+      "id": "4339",
+      "title": "Medžiai meta lapus",
+      "description": "Tai patinka tik kai kam, bet ne visiems.",
+      "image": "https://ichef.bbci.co.uk/images/ic/480xn/p06qbyd1.jpg",
+      "createdAt": "2025-04-17T23:30:25.875Z",
+      "userId": "1744932447899"
+    },
+    {
+      "id": "c904",
+      "title": "Medžiai meta lapus",
+      "description": "Medžiai meta lapus, tai patinka ne visiems",
+      "image": "https://www.southernliving.com/thmb/Y9wqLDNdGwnn2J_ORRYjAf0nZYg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1282168851-1-b186ef661e624eaca808e2b8b1491353.jpg",
+      "createdAt": "2025-04-17T23:32:35.346Z",
+      "userId": "1744932447899"
+    },
+    {
+      "id": "9f4c",
+      "title": "Saulėtas paplūdimys",
+      "description": "Saulė šviečia, vanduo blizga",
+      "image": "https://www.clickandgo.com/destinations/bulgaria/sunny-beach/sunny-beach-south-beach.jpg",
+      "createdAt": "2025-04-17T23:34:07.779Z",
+      "userId": "1744932447899"
+    },
+    {
+      "id": "f753",
+      "title": "Kalėdos",
+      "description": "Kai kas svajoja apie tokias Kalėdas",
+      "image": "https://thumbs.dreamstime.com/b/tropical-christmas-tree-made-sand-sunny-beach-tropical-christmas-tree-made-sand-sunny-beach-340855532.jpg",
+      "createdAt": "2025-04-17T23:55:06.205Z",
+      "userId": "1744932447899"
     }
   ],
   "savedCards": [
     {
       "id": "1",
-      "userId": 1,
-      "cardId": 2
+      "userId": "1",
+      "cardId": "2"
     },
     {
       "id": "2",
-      "userId": 1,
-      "cardId": 3
+      "userId": "1",
+      "cardId": "3"
     },
     {
       "id": "2c20",
@@ -148,6 +191,11 @@
       "id": "4ea6",
       "userId": "f286",
       "cardId": "1"
+    },
+    {
+      "id": "20bb",
+      "userId": "1744932447899",
+      "cardId": "4b12"
     }
   ]
 }
