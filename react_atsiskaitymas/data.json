@@ -54,6 +54,17 @@
       "avatar": "https://img.icons8.com/nolan/600w/user-default.png",
       "password": "aA111111**",
       "passwordHash": "$2b$10$AzBNZnUL9CeQJRIF8IrrP.KSY0MzHdmmO/Uvd46jvKOxinpabLVNu"
+    },
+    {
+      "id": "1744941406583",
+      "firstName": "Audrius ",
+      "lastName": "Zaveckis",
+      "email": "audzav88484333338484@gmail.com",
+      "username": "auz",
+      "birthDate": "1998-05-05",
+      "avatar": "https://i.pinimg.com/564x/3b/7d/6f/3b7d6f60e2d450b899c322266fc6edfd.jpg",
+      "password": "Qw*11111",
+      "passwordHash": "$2b$10$KGaqM/OkL6gFTiD4J5arP.XQQRnxc6VqNff4yh.8QvSTtVNHAn9a6"
     }
   ],
   "cards": [
@@ -144,6 +155,14 @@
       "image": "https://thumbs.dreamstime.com/b/tropical-christmas-tree-made-sand-sunny-beach-tropical-christmas-tree-made-sand-sunny-beach-340855532.jpg",
       "createdAt": "2025-04-17T23:55:06.205Z",
       "userId": "1744932447899"
+    },
+    {
+      "id": "e044",
+      "title": "Velykos šaltyje",
+      "description": "Kartais Velykos būna ir tokios.",
+      "image": "https://kaunas.kasvyksta.lt/wp-content/uploads/2013/03/image_1364658232029864.jpg",
+      "createdAt": "2025-04-18T01:59:51.142Z",
+      "userId": "1744941406583"
     }
   ],
   "savedCards": [
@@ -196,6 +215,11 @@
       "id": "20bb",
       "userId": "1744932447899",
       "cardId": "4b12"
+    },
+    {
+      "id": "de5b",
+      "userId": "1744941406583",
+      "cardId": "4"
     }
   ]
 }
