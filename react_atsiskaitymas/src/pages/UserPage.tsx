@@ -1,75 +1,74 @@
 import { useEffect, useState } from "react";
-import { CardType } from "../../src/types/CardType";
+import { useAuth } from "../contexts/AuthContext";
+import { CardItem } from "../components/UI/molecules/CardItem";
+import { CardType } from "../types/CardType";
+import { SavedCard } from "../types/SavedCard";
+import "./UserPage.css";
 
 export const UserPage = () => {
+  const { loggedInUser } = useAuth();
   const [savedCards, setSavedCards] = useState<CardType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSavedCards = async () => {
+      if (!loggedInUser) return;
       try {
         const savedResponse = await fetch("http://localhost:8080/savedCards");
-        const saved = await savedResponse.json();
+        const savedList: SavedCard[] = await savedResponse.json();
 
-        const cardIds = saved.map((item: { cardId: string }) => item.cardId);
-
-        const cardsResponse = await fetch("http://localhost:8080/cards");
-        const allCards = await cardsResponse.json();
-
-        const filteredCards = allCards.filter((card: CardType) =>
-          cardIds.includes(card.id)
+        const userSaved = savedList.filter(
+          (item) => item.userId === loggedInUser.id
         );
 
+        const cardIds = userSaved.map((saved) => saved.cardId);
+
+        const cardsResponse = await fetch("http://localhost:8080/cards");
+        const allCards: CardType[] = await cardsResponse.json();
+
+        const filteredCards = allCards.filter((card) => cardIds.includes(card.id));
         setSavedCards(filteredCards);
       } catch (error) {
-        console.error("Klaida gaunant išsaugotas korteles:", error);
+        console.error("Klaida kraunant išsaugotas korteles:", error);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     fetchSavedCards();
-  }, []);
+  }, [loggedInUser]);
 
-  if (isLoading) {
+  const handleRemoveSavedCard = (cardId: string) => {
+    setSavedCards((prevCards) => prevCards.filter((card) => card.id !== cardId));
+  };
+
+  if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "2rem" }}>
+      <div className="user-loading">
         <img
           src="https://raw.githubusercontent.com/Codelessly/FlutterLoadingGIFs/master/packages/cupertino_activity_indicator_large.gif"
           alt="Kraunasi..."
-          style={{ width: "100px" }}
+          className="user-loading-gif"
         />
       </div>
     );
   }
 
-  if (savedCards.length === 0) {
-    return (
-      <section style={{ padding: "2rem", textAlign: "center" }}>
-        <p>❌ Nėra išsaugotų įrašų.</p>
-      </section>
-    );
-  }
-
   return (
-    <section style={{ padding: "2rem" }}>
-      <h1>Išsaugotos kortelės</h1>
-
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center" }}>
-        {savedCards.map((card) => (
-          <div key={card.id} style={{ border: "1px solid #ccc", padding: "1rem", width: "300px" }}>
-            <h3>{card.title}</h3>
-            {card.image && (
-              <img
-                src={card.image}
-                alt={card.title}
-                style={{ width: "100%", objectFit: "cover", marginBottom: "0.5rem" }}
-              />
-            )}
-            <p>{card.description}</p>
-            <small>Sukurta: {new Date(card.createdAt).toLocaleDateString()}</small>
-          </div>
-        ))}
+    <section className="user-page">
+      <h2 className="user-page-title">Išsaugotos kortelės</h2>
+      <div className="user-card-list">
+        {savedCards.length > 0 ? (
+          savedCards.map((card) => (
+            <CardItem
+              key={card.id}
+              card={card}
+              onRemove={handleRemoveSavedCard}
+            />
+          ))
+        ) : (
+          <p className="no-saved-cards">Neturite išsaugotų kortelių.</p>
+        )}
       </div>
     </section>
   );

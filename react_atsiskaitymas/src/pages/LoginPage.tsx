@@ -44,14 +44,14 @@ export const LoginPage = () => {
   return (
     <section style={{
       minHeight: "100vh",
-      backgroundColor: "#f5f5f5",
+      backgroundColor: "#e6d173",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       padding: "2rem",
     }}>
       <div style={{
-        backgroundColor: "white",
+        backgroundColor: "#bee6e4",
         padding: "2rem",
         borderRadius: "8px",
         boxShadow: "0 2px 10px rgba(0,0,0,0.1)",

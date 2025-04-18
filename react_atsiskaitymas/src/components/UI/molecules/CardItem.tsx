@@ -4,13 +4,19 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { User } from "../../../types/User";
 import { Link } from "react-router";
 import "./CardItem.css";
-import { SavedCard } from "../../../types/SavedCard";
 
-interface CardItemProps {
+type CardItemProps = {
   card: CardType;
-}
+  onRemove?: (cardId: string) => void;
+};
 
-export const CardItem = ({ card }: CardItemProps) => {
+type SavedCard = {
+  id: string;
+  userId: string;
+  cardId: string;
+};
+
+export const CardItem = ({ card, onRemove }: CardItemProps) => {
   const { loggedInUser } = useAuth();
   const [creator, setCreator] = useState<User | null>(null);
   const [isSaved, setIsSaved] = useState(false);
@@ -20,14 +26,30 @@ export const CardItem = ({ card }: CardItemProps) => {
       try {
         const response = await fetch(`http://localhost:8080/users/${card.userId}`);
         if (!response.ok) throw new Error("Nepavyko gauti vartotojo duomenų");
-        const userData = await response.json();
+        const userData: User = await response.json();
         setCreator(userData);
       } catch (error) {
-        console.error("Klaida gaunant kurėją:", error);
+        console.error("Klaida gaunant kūrėją:", error);
       }
     };
+
+    const checkIfSaved = async () => {
+      if (!loggedInUser) return;
+      try {
+        const response = await fetch("http://localhost:8080/savedCards");
+        const savedCards: SavedCard[] = await response.json();
+        const found = savedCards.find(
+          (saved) => saved.userId === loggedInUser.id && saved.cardId === card.id
+        );
+        setIsSaved(!!found);
+      } catch (error) {
+        console.error("Klaida tikrinant ar kortelė išsaugota:", error);
+      }
+    };
+
     fetchCreator();
-  }, [card.userId]);
+    checkIfSaved();
+  }, [card.userId, card.id, loggedInUser]);
 
   const handleSave = async () => {
     if (!loggedInUser) return;
@@ -52,8 +74,8 @@ export const CardItem = ({ card }: CardItemProps) => {
   const handleUnsave = async () => {
     if (!loggedInUser) return;
     try {
-      const savedCardsResponse = await fetch("http://localhost:8080/savedCards");
-      const savedCards: SavedCard[] = await savedCardsResponse.json();
+      const response = await fetch("http://localhost:8080/savedCards");
+      const savedCards: SavedCard[] = await response.json();
       const savedCard = savedCards.find(
         (saved) => saved.userId === loggedInUser.id && saved.cardId === card.id
       );
@@ -62,6 +84,9 @@ export const CardItem = ({ card }: CardItemProps) => {
           method: "DELETE",
         });
         setIsSaved(false);
+        if (onRemove) {
+          onRemove(card.id);
+        }
         alert("Kortelė pašalinta iš išsaugotų!");
       }
     } catch (error) {
@@ -86,7 +111,7 @@ export const CardItem = ({ card }: CardItemProps) => {
     <div className="card-item">
       {creator && (
         <div className="card-header">
-          <img src={creator.avatar} alt={creator.firstName} className="creator-avatar" />
+          <img src={creator.avatar} alt={`${creator.firstName} ${creator.lastName}`} className="creator-avatar" />
           <Link to={`/user/${creator.id}`} className="creator-name">
             {creator.firstName} {creator.lastName}
           </Link>

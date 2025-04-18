@@ -97,7 +97,7 @@
       "createdAt": "2025-04-15T18:45:00.000Z",
       "title": "Žiemos stebuklas",
       "image": "https://t3.ftcdn.net/jpg/05/83/86/04/360_F_583860424_rcHOGmtOIgi09eFJvtcVlBwlgOoAvKvV.jpg",
-      "description": "Snieguota šalta žiemos diena.",
+      "description": "Snieguota ir šalta žiemos diena.",
       "userId": "2"
     },
     {
@@ -185,16 +185,6 @@
       "cardId": "3"
     },
     {
-      "id": "2c20",
-      "userId": "2",
-      "cardId": "2"
-    },
-    {
-      "id": "bf59",
-      "userId": "2",
-      "cardId": "1"
-    },
-    {
       "id": "0748",
       "userId": "ebec",
       "cardId": "2"
@@ -203,16 +193,6 @@
       "id": "a5f5",
       "userId": "ebec",
       "cardId": "4"
-    },
-    {
-      "id": "57e8",
-      "userId": "065b",
-      "cardId": "4"
-    },
-    {
-      "id": "ee4c",
-      "userId": "f286",
-      "cardId": "4b12"
     },
     {
       "id": "4ea6",
@@ -235,14 +215,9 @@
       "cardId": "3"
     },
     {
-      "id": "0320",
+      "id": "67de",
       "userId": "065b",
-      "cardId": "2"
-    },
-    {
-      "id": "cdc7",
-      "userId": "065b",
-      "cardId": "2"
+      "cardId": "1"
     }
   ]
 }
