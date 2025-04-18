@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../../contexts/AuthContext";
 
 export const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { loggedInUser, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -23,20 +23,20 @@ export const Navbar = () => {
             />
           </Link>
           <Link to="/">Home</Link>
-          {user && <Link to="/add">Add</Link>}
-          {user && <Link to="/user">Saved</Link>}
+          {loggedInUser && <Link to="/add">Add</Link>}
+          {loggedInUser && <Link to="/user">Saved</Link>}
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          {user ? (
+          {loggedInUser ? (
             <>
               <Link to="/user" style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none", color: "inherit" }}>
                 <img
-                  src={user.avatar || "https://img.icons8.com/nolan/600w/user-default.png"}
+                  src={loggedInUser.avatar || "https://img.icons8.com/nolan/600w/user-default.png"}
                   alt="User Avatar"
                   style={{ width: "40px", height: "40px", borderRadius: "50%" }}
                 />
-                <span>{user.firstName} {user.lastName}</span>
+                <span>{loggedInUser.firstName} {loggedInUser.lastName}</span>
               </Link>
               <button onClick={handleLogout} style={{ cursor: "pointer" }}>Logout</button>
             </>

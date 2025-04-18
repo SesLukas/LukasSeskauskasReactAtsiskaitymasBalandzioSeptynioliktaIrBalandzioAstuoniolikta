@@ -51,10 +51,14 @@ export const RegisterPage = () => {
       const usernameExists = users.some((user) => user.username.toLowerCase() === values.username.toLowerCase());
 
       if (emailExists) {
-        throw new Error("Toks el. paštas jau egzistuoja!");
+        setError("Toks el. paštas jau yra!");
+        setSuccess(null);
+        return;
       }
       if (usernameExists) {
-        throw new Error("Toks vartotojo vardas jau egzistuoja!");
+        setError("Toks vartotojo vardas jau yra!");
+        setSuccess(null);
+        return;
       }
 
       const salt = bcrypt.genSaltSync(10);
@@ -94,78 +98,79 @@ export const RegisterPage = () => {
   };
 
   return (
-    <section className="register-page">
+    <div style={{ backgroundColor: "#eef2f7", minHeight: "100vh", paddingTop: "4rem" }}>
+    <section className="register-section">
       <h2 className="register-title">Registracija</h2>
 
-      {error && <div className="notification error">{error}</div>}
-      {success && <div className="notification success">{success}</div>}
+      {error && <div className="register-error">{error}</div>}
+      {success && <div className="register-success">{success}</div>}
 
       <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          username: "",
-          birthDate: "",
-          password: "",
-          confirmPassword: "",
-          avatar: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={() => {}}
-      >
-        {(formik) => (
-          <Form noValidate className="register-form">
-            {/* Laukai */}
-            <label htmlFor="firstName">Vardas</label>
-            <Field name="firstName" placeholder="Vardas" />
-            <ErrorMessage name="firstName" render={(msg) => <div className="error-message">{msg}</div>} />
+          initialValues={{
+            firstName: "",
+            lastName: "",
+            email: "",
+            username: "",
+            birthDate: "",
+            password: "",
+            confirmPassword: "",
+            avatar: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={() => {}}
+        >
+          {(formik) => (
+            <Form className="register-form">
+              <label htmlFor="firstName">Vardas</label>
+              <Field name="firstName" placeholder="Vardas" />
+              <ErrorMessage name="firstName" render={(msg) => <div className="register-error-msg">{msg}</div>} />
 
-            <label htmlFor="lastName">Pavardė</label>
-            <Field name="lastName" placeholder="Pavardė" />
-            <ErrorMessage name="lastName" render={(msg) => <div className="error-message">{msg}</div>} />
+              <label htmlFor="lastName">Pavardė</label>
+              <Field name="lastName" placeholder="Pavardė" />
+              <ErrorMessage name="lastName" render={(msg) => <div className="register-error-msg">{msg}</div>} />
 
-            <label htmlFor="email">El. paštas</label>
-            <Field name="email" placeholder="El. paštas" type="email" />
-            <ErrorMessage name="email" render={(msg) => <div className="error-message">{msg}</div>} />
+              <label htmlFor="email">El. paštas</label>
+              <Field name="email" placeholder="El. paštas" type="email" />
+              <ErrorMessage name="email" render={(msg) => <div className="register-error-msg">{msg}</div>} />
 
-            <label htmlFor="username">Vartotojo vardas</label>
-            <Field name="username" placeholder="Vartotojo vardas" />
-            <ErrorMessage name="username" render={(msg) => <div className="error-message">{msg}</div>} />
+              <label htmlFor="username">Vartotojo vardas</label>
+              <Field name="username" placeholder="Vartotojo vardas" />
+              <ErrorMessage name="username" render={(msg) => <div className="register-error-msg">{msg}</div>} />
 
-            <label htmlFor="birthDate">Gimimo data</label>
-            <Field name="birthDate" type="date" />
-            <ErrorMessage name="birthDate" render={(msg) => <div className="error-message">{msg}</div>} />
+              <label htmlFor="birthDate">Gimimo data</label>
+              <Field name="birthDate" type="date" />
+              <ErrorMessage name="birthDate" render={(msg) => <div className="register-error-msg">{msg}</div>} />
 
-            <label htmlFor="password">Slaptažodis</label>
-            <Field name="password" placeholder="Slaptažodis" type="password" />
-            <ErrorMessage name="password" render={(msg) => <div className="error-message">{msg}</div>} />
+              <label htmlFor="password">Slaptažodis</label>
+              <Field name="password" placeholder="Slaptažodis" type="password" />
+              <ErrorMessage name="password" render={(msg) => <div className="register-error-msg">{msg}</div>} />
 
-            <label htmlFor="confirmPassword">Pakartokite slaptažodį</label>
-            <Field name="confirmPassword" placeholder="Pakartokite slaptažodį" type="password" />
-            <ErrorMessage name="confirmPassword" render={(msg) => <div className="error-message">{msg}</div>} />
+              <label htmlFor="confirmPassword">Pakartokite slaptažodį</label>
+              <Field name="confirmPassword" placeholder="Pakartokite slaptažodį" type="password" />
+              <ErrorMessage name="confirmPassword" render={(msg) => <div className="register-error-msg">{msg}</div>} />
 
-            <label htmlFor="avatar">Avataro nuoroda (nebūtina)</label>
-            <Field name="avatar" placeholder="Avataro URL (nebūtinas)" />
+              <label htmlFor="avatar">Avataro nuoroda (nebūtina)</label>
+              <Field name="avatar" placeholder="Avataro URL (nebūtinas)" />
 
-            <button
-              type="button"
-              className="register-button"
-              onClick={async () => {
-                const errors = await formik.validateForm();
-                if (Object.keys(errors).length > 0) {
-                  setError("Registracija nesėkminga!");
-                  setSuccess(null);
-                  return;
-                }
-                handleRegister(formik.values);
-              }}
-            >
-              Registruotis
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </section>
+              <button
+                type="button"
+                className="register-button"
+                onClick={async () => {
+                  const errors = await formik.validateForm();
+                  if (Object.keys(errors).length > 0) {
+                    setError("Registracija nesėkminga!");
+                    setSuccess(null);
+                    return;
+                  }
+                  handleRegister(formik.values);
+                }}
+              >
+                Registruotis
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </section>
+    </div>
   );
 };

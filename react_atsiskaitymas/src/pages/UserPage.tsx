@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../src/contexts/AuthContext";
 import { CardType } from "../../src/types/CardType";
 
 export const UserPage = () => {
-  const { user } = useAuth();
   const [savedCards, setSavedCards] = useState<CardType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSavedCards = async () => {
-      if (!user) return;
-
       try {
-        const savedResponse = await fetch(`http://localhost:8080/savedCards?userId=${user.id}`);
+        const savedResponse = await fetch("http://localhost:8080/savedCards");
         const saved = await savedResponse.json();
 
-        const cardIds = saved.map((item: { cardId: number }) => item.cardId);
+        const cardIds = saved.map((item: { cardId: string }) => item.cardId);
 
         const cardsResponse = await fetch("http://localhost:8080/cards");
         const allCards = await cardsResponse.json();
 
-        const filteredCards = allCards.filter((card: CardType) => cardIds.includes(card.id));
+        const filteredCards = allCards.filter((card: CardType) =>
+          cardIds.includes(card.id)
+        );
 
         setSavedCards(filteredCards);
       } catch (error) {
@@ -31,15 +29,7 @@ export const UserPage = () => {
     };
 
     fetchSavedCards();
-  }, [user]);
-
-  if (!user) {
-    return (
-      <section style={{ padding: "2rem", textAlign: "center" }}>
-        <h1>Reikia būti prisijungusiam!</h1>
-      </section>
-    );
-  }
+  }, []);
 
   if (isLoading) {
     return (
@@ -63,7 +53,7 @@ export const UserPage = () => {
 
   return (
     <section style={{ padding: "2rem" }}>
-      <h1>Mano išsaugotos kortelės</h1>
+      <h1>Išsaugotos kortelės</h1>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", justifyContent: "center" }}>
         {savedCards.map((card) => (

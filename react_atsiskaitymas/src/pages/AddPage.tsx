@@ -1,71 +1,91 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router";
 import { useAuth } from "../../src/contexts/AuthContext";
-
-const addCardSchema = Yup.object({
-  title: Yup.string().required("Privalomas pavadinimas"),
-  description: Yup.string().required("Privalomas aprašymas"),
-  image: Yup.string().url("Turi būti tinkamas URL adresas").optional(),
-});
+import { useNavigate } from "react-router";
+import { CardType } from "../../src/types/CardType";
+import "./AddPage.css";
 
 export const AddPage = () => {
-  const { user } = useAuth();
+  const { loggedInUser } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
+  if (!loggedInUser) {
     return (
-      <section style={{ padding: "2rem", textAlign: "center" }}>
+      <section className="add-page">
         <h1>Reikia būti prisijungusiam!</h1>
       </section>
     );
   }
 
-  const handleAddCard = async (values: { title: string; description: string; image?: string }) => {
-    try {
-      const newCard = {
-        ...values,
-        createdAt: new Date().toISOString(),
-        userId: user.id,
-      };
+  const validationSchema = Yup.object({
+    title: Yup.string()
+      .min(3, "Pavadinimas per trumpas")
+      .required("Pavadinimas yra privalomas"),
+    description: Yup.string()
+      .min(5, "Aprašymas per trumpas")
+      .required("Aprašymas yra privalomas"),
+    image: Yup.string().url("Turi būti tinkamas URL"),
+  });
 
-      await fetch("http://localhost:8080/cards", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newCard),
-      });
+  const handleAddCard = async (values: Omit<CardType, "id" | "createdAt" | "userId">) => {
+    const newCard: CardType = {
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+      userId: loggedInUser.id,
+      ...values,
+    };
 
-      navigate("/");
-    } catch (error) {
-      console.error("Klaida sukuriant kortelę:", error);
-    }
+    await fetch("http://localhost:8080/cards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newCard),
+    });
+
+    navigate("/");
   };
 
   return (
-    <section style={{ padding: "2rem" }}>
-      <h1>Pridėti Naują Kortelę</h1>
+    <section className="add-page">
+      <h2>Pridėti naują kortelę</h2>
+
       <Formik
-        initialValues={{ title: "", description: "", image: "" }}
-        validationSchema={addCardSchema}
+        initialValues={{
+          title: "",
+          description: "",
+          image: "",
+        }}
+        validationSchema={validationSchema}
         onSubmit={handleAddCard}
       >
-        {() => (
-          <Form style={{ display: "flex", flexDirection: "column", maxWidth: "400px", gap: "1rem" }}>
-            <label>Pavadinimas:</label>
-            <Field name="title" />
-            <ErrorMessage name="title" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+        <Form className="add-form">
+          <div>
+            <label htmlFor="title">Pavadinimas</label>
+            <Field name="title" placeholder="Pavadinimas" />
+            <ErrorMessage name="title" component="div" className="error-message" />
+          </div>
 
-            <label>Aprašymas:</label>
-            <Field name="description" as="textarea" />
-            <ErrorMessage name="description" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+          <div>
+            <label htmlFor="description">Aprašymas</label>
+            <Field
+              name="description"
+              as="textarea"
+              placeholder="Aprašymas"
+              rows={5}
+              className="description-field"
+            />
+            <ErrorMessage name="description" component="div" className="error-message" />
+          </div>
 
-            <label>Paveiksliuko URL (nebūtinas):</label>
-            <Field name="image" />
-            <ErrorMessage name="image" render={(msg) => <div style={{ color: "red" }}>{msg}</div>} />
+          <div>
+            <label htmlFor="image">Nuotraukos nuoroda (nebūtina)</label>
+            <Field name="image" placeholder="Nuotraukos URL" />
+            <ErrorMessage name="image" component="div" className="error-message" />
+          </div>
 
-            <button type="submit">Sukurti</button>
-          </Form>
-        )}
+          <button type="submit" className="submit-button">
+            Pridėti kortelę
+          </button>
+        </Form>
       </Formik>
     </section>
   );

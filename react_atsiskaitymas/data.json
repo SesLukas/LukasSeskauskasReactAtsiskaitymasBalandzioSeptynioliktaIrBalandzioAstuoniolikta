@@ -163,6 +163,14 @@
       "image": "https://kaunas.kasvyksta.lt/wp-content/uploads/2013/03/image_1364658232029864.jpg",
       "createdAt": "2025-04-18T01:59:51.142Z",
       "userId": "1744941406583"
+    },
+    {
+      "id": "1744946697795",
+      "createdAt": "2025-04-18T03:24:57.795Z",
+      "userId": "2",
+      "title": "Minu dviratį pavėjui",
+      "description": "Kaip lengva minti!",
+      "image": "https://www.expatrepublic.com/wp-content/uploads/2022/12/expat-republic-tips-cycling-dutch-wind.jpg"
     }
   ],
   "savedCards": [
@@ -220,6 +228,21 @@
       "id": "de5b",
       "userId": "1744941406583",
       "cardId": "4"
+    },
+    {
+      "id": "3f31",
+      "userId": "1744932447899",
+      "cardId": "3"
+    },
+    {
+      "id": "0320",
+      "userId": "065b",
+      "cardId": "2"
+    },
+    {
+      "id": "cdc7",
+      "userId": "065b",
+      "cardId": "2"
     }
   ]
 }

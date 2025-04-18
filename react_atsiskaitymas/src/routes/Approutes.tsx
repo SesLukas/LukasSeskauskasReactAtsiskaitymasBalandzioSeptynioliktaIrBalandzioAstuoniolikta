@@ -7,14 +7,14 @@ import { UserPage } from "../pages/UserPage";
 import { useAuth } from "../contexts/AuthContext";
 
 export const AppRoutes = () => {
-  const { user } = useAuth();
+  const { loggedInUser  } = useAuth();
 
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      {user && (
+      {loggedInUser && (
         <>
           <Route path="/add" element={<AddPage />} />
           <Route path="/user" element={<UserPage />} />
